@@ -13,23 +13,30 @@ import AccountPage from "./Account";
 import * as routes from "../constants/routes";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      authUser: null,
+    };
+  }
   render() {
     return (
       <BrowserRouter>
         <div>
-          <Navigation />
+          <Navigation authUser={this.state.authUser} />
           <hr />
 
-          <Route exact path={routes.LANDING} component={LandingPage} />
-          <Route exact path={routes.SIGN_UP} component={SignUpPage} />
-          <Route exact path={routes.SIGN_IN} component={SignInPage} />
+          <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+          <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
+          <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
           <Route
             exact
             path={routes.PASSWORD_FORGET}
-            component={PasswordForgetPage}
+            component={() => <PasswordForgetPage />}
           />
-          <Route exact path={routes.HOME} component={HomePage} />
-          <Route exact path={routes.ACCOUNT} component={AccountPage} />
+          <Route exact path={routes.HOME} component={() => <HomePage />} />
+          <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
         </div>
       </BrowserRouter>
     );

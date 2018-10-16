@@ -4,12 +4,11 @@ import { Link, withRouter } from "react-router-dom";
 import * as routes from "../constants/routes";
 import { auth } from '../firebase';
 
-const SignUpPage = ({ history }) => (
+const SignUpPage = ({ history }) => 
   <div>
     <h1>SignUp</h1>
     <SignUpForm history={history} />
   </div>
-);
 
 const INITIAL_STATE = {
   username: "",
@@ -20,7 +19,7 @@ const INITIAL_STATE = {
 };
 
 const byPropKey = (propertyName, value) => () => ({
-  [propertyName]: value
+  [propertyName]: value,
 });
 
 class SignUpForm extends Component {
@@ -113,11 +112,10 @@ class SignUpForm extends Component {
   }
 }
 
-const SignUpLink = () => (
+const SignUpLink = () => 
   <p>
     Don't have an account? <Link to={routes.SIGN_UP}>Sign Up</Link>
   </p>
-);
 
 export default withRouter(SignUpPage);
 
