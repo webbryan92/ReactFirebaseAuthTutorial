@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 
 
 //firebase config from the firebase sites
@@ -15,10 +16,13 @@ const config = {
 if (!firebase.apps.length){
     firebase.initializeApp(config);
 }
+//expose the firebase database
+const db = firebase.database();
 //pull in auth api from firebase to be used in the auth file
 const auth = firebase.auth();
 
 //export the auth api
 export {
+    db,
     auth,
 };
