@@ -1,5 +1,6 @@
 import React from "react";
 
+import AuthUserContext from './AuthUserContext';
 import { firebase } from "../firebase";
 
 //this creates a higher order component to wrap app.js

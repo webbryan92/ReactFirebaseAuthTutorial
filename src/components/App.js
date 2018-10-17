@@ -16,7 +16,7 @@ import withAuthentication from './withAuthentication';
 const App = () => (
   <BrowserRouter>
     <div>
-      <Navigation authUser={this.state.authUser} />
+      <Navigation />
       <hr />
 
       <Route exact path={routes.LANDING} component={() => <LandingPage />} />
