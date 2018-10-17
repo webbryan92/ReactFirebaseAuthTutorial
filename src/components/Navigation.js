@@ -1,10 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import AuthUserContext from './AuthUserContext';
+import SignOutButton from './SignOut';
 import * as routes from "../constants/routes";
 
+//Navigation uses a ternary operator to 
+//choose between auth and non-auth displays
+//Context passes the authorized user to 
 const Navigation = ({ authUser }) => (
-  <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
+  <AuthUserContext.Consumer>
+    {authUser => authUser
+      ? <NavigationAuth />
+      : <NavigationNonAuth />
+    }
+  </AuthUserContext.Consumer>
 );
 const NavigationAuth = () => (
   <ul>
