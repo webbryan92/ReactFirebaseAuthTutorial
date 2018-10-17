@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import * as routes from "../constants/routes";
-import { auth } from '../firebase';
+import { auth, db } from "../firebase";
 
-const SignUpPage = ({ history }) => 
+const SignUpPage = ({ history }) => (
   <div>
     <h1>SignUp</h1>
     <SignUpForm history={history} />
   </div>
+);
 
 const INITIAL_STATE = {
   username: "",
@@ -19,7 +20,7 @@ const INITIAL_STATE = {
 };
 
 const byPropKey = (propertyName, value) => () => ({
-  [propertyName]: value,
+  [propertyName]: value
 });
 
 class SignUpForm extends Component {
@@ -33,27 +34,29 @@ class SignUpForm extends Component {
 
   //give the form data to firebase with the auth API
   onSubmit = event => {
-    const {
-        username,
-        email,
-        passwordOne,
-      } = this.state;
+    const { username, email, passwordOne } = this.state;
 
-      const {
-          history,
-      } = this.props;
-  
-      auth.doCreateUserWithEmailAndPassword(email, passwordOne)
-        .then(authUser => {
-          this.setState({ ...INITIAL_STATE });
-          //setup home as the page location after user auth
-          history.push(routes.HOME);
-        })
-        .catch(error => {
-          this.setState(byPropKey('error', error));
-        });
-  
-      event.preventDefault();
+    const { history } = this.props;
+
+    auth
+      .doCreateUserWithEmailAndPassword(email, passwordOne)
+      .then(authUser => {
+        // Create a user in your own accessible Firebase Database too
+        db.doCreateUser(authUser.user.uid, username, email)
+          .then(() => {
+            this.setState({ ...INITIAL_STATE });
+            //redirect user to homepage after login
+            history.push(routes.HOME);
+          })
+          .catch(error => {
+            this.setState(byPropKey("error", error));
+          });
+      })
+      .catch(error => {
+        this.setState(byPropKey("error", error));
+      });
+
+    event.preventDefault();
   };
 
   render() {
@@ -112,10 +115,11 @@ class SignUpForm extends Component {
   }
 }
 
-const SignUpLink = () => 
+const SignUpLink = () => (
   <p>
     Don't have an account? <Link to={routes.SIGN_UP}>Sign Up</Link>
   </p>
+);
 
 export default withRouter(SignUpPage);
 
